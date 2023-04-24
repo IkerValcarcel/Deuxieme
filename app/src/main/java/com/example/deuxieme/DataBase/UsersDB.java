@@ -1,6 +1,5 @@
-package com.example.deuxieme;
+package com.example.deuxieme.DataBase;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -13,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 public class UsersDB {
     final static private String DB_URL = "http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/ivalcarcel003/WEB/";
 
-    public static String login(String username, String password) throws Exception{
+    public String login(String username, String password) throws Exception{
         // Definimos la direccion del endpoint que va a crear el usuario nuevo.
         final String DB_URL_LOGIN = DB_URL + "login.php";
 
@@ -27,13 +26,7 @@ public class UsersDB {
         con.setDoOutput(true);
 
         // Definimos los datos que se van a mandar en la peticion
-        JSONObject user_data = new JSONObject();
-        user_data.put("username", username);
-        user_data.put("password", password);
-
-        // Convertimos los datos a tipo String
-        String data = user_data.toString();
-
+        String data = String.format("{\"username\":\"%s\",\"password\":\"%s\"}", username, password);
         try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
             byte[] postData = data.getBytes(StandardCharsets.UTF_8);
             wr.write(postData);
@@ -51,11 +44,11 @@ public class UsersDB {
                 return response.toString();
             }
         } else {
-            return "Error al conectar con la base de datos";
+            return "{\"error\":\"Error al conectarse al servidor\"}";
         }
     }
 
-    public static String login(String email, String username, String password) throws Exception {
+    public String register(String email, String username, String password) throws Exception {
         // Definimos la direccion del endpoint que va a crear el usuario nuevo.
         final String DB_URL_INSERT_USER = DB_URL + "insert-user.php";
 
@@ -68,16 +61,8 @@ public class UsersDB {
         con.setRequestProperty("Content-Type", "application/json");
         con.setDoOutput(true);
 
-        // Definimos los datos que se van a mandar en la peticion
-        JSONObject user_data = new JSONObject();
-        user_data.put("email", email);
-        user_data.put("username", username);
-        user_data.put("password", password);
-
-        // Convertimos los datos a tipo String
-        String data = user_data.toString();
-
-        // Hacemos la peticion
+        // Definimos los datos que se van a mandar
+        String data = String.format("{\"email\":\"%s\",\"username\":\"%s\",\"password\":\"%s\"}", email, username, password);
         try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
             byte[] postData = data.getBytes(StandardCharsets.UTF_8);
             wr.write(postData);
