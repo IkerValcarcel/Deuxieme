@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
     private boolean isUserLogged() {
-       /* SharedPreferences preferences = getSharedPreferences("credentials", Context.MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("credentials", Context.MODE_PRIVATE);
         String user = preferences.getString("user", null);
-        return user != null;*/
-        return false;
+        return user != null;
+
     }
 }

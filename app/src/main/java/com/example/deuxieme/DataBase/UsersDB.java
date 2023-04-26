@@ -33,17 +33,14 @@ public class UsersDB {
             wr.flush();
         }
 
-        int responseCode = con.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-                StringBuilder response = new StringBuilder();
-                String line;
-                while ((line = in.readLine()) != null) {
-                    response.append(line);
-                }
-                return response.toString();
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = in.readLine()) != null) {
+                response.append(line);
             }
-        } else {
+            return response.toString();
+        } catch (Exception e){
             return "{\"error\":\"Error al conectarse al servidor\"}";
         }
     }

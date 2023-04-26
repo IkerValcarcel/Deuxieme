@@ -25,10 +25,10 @@
         android:layout_marginBottom="16dp"/>
 
     <Button
-        android:id="@+id/see_expenses"
+        android:id="@+id/open_camera"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:text="Ver todos los gastos."
+        android:text="Abrir la camara"
         android:layout_below="@id/log_expense"/>
 
     <Button
